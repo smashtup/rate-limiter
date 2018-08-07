@@ -10,26 +10,18 @@ import static java.lang.String.format;
 @Getter
 public class RateLimitConfig {
     public static final long MILLISECONDS_IN_SECOND = 1000;
-
     public static final long SECONDS_IN_MINUTE = 60;
-
     public static final long MINUTES_IN_HOUR = 60;
-
     public static final long HOURS_IN_DAY = 24;
 
-    public static final RateLimitStrategy DEFAULT_RATE_LIMIT_STRATEGY = new FixedWindowStrategy();
-
-    public static final long DEFAULT_REQUEST_LIMIT = 100;
-
-    public static final long DEFAULT_DURATION_IN_MS = 1 * MINUTES_IN_HOUR * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
-
-    public static final long DEFAULT_TRIM_TIME_INTERVAL_MS = 10 * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
-
-    public static final long DEFAULT_AGE_TO_TRIM_MS = 3 * MINUTES_IN_HOUR * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
-
     public static final String CANNOT_BE_NULL = "%s can't be null";
-
     public static final String GREATER_THAN_OR_EQUAL_TO = "%s must be greater than or equal to %d";
+
+    public static final RateLimitStrategy DEFAULT_RATE_LIMIT_STRATEGY = new FixedWindowStrategy();
+    public static final long DEFAULT_REQUEST_LIMIT = 100;
+    public static final long DEFAULT_DURATION_IN_MS = 1 * MINUTES_IN_HOUR * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
+    public static final long DEFAULT_TRIM_TIME_INTERVAL_MS = 10 * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
+    public static final long DEFAULT_AGE_TO_TRIM_MS = 3 * MINUTES_IN_HOUR * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
 
     @Builder.Default
     private RateLimitStore rateLimitStore = new InMemoryRateLimitStore();
