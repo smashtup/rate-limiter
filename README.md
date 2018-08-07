@@ -46,7 +46,7 @@ gradle build
 This will build the project and create a jar file in the following subdirectory:
  
 ```
-./build/libs/rate-limiter-1.0-SNAPSHOT.jar
+./build/libs/rate-limiter-1.X-SNAPSHOT.jar
 ``` 
 
 ## Running the tests
