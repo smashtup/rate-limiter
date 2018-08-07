@@ -1,6 +1,6 @@
-# RateLimiter
+# RateLimiter (Java)
 
-A simple Java library to help provide an interface for rate limiting to your java application. Interface can be extended with
+A simple and rudimentary Java library to help provide an interface for rate limiting to your java application. Interface can be extended with
 own rate limiting strategies as well as storage for rate limiting state. Using the In Memory storage limits this library to a single application server.
 Please look into implementing a store based on a central storage such as Redis for clustered support.
 
@@ -29,6 +29,7 @@ Library is built and tested using latest version of gradle on Java 8.
 
 * [Install Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
+* Familiarity with [Project Lombok](https://projectlombok.org/). This library is used to help make writing java code more productive and readable with the use of java annotations. 
 
 ### Building
 
@@ -58,11 +59,51 @@ gradle clean test
 
 ## Using the library
 
-####Quick Start
+###Quick Start
 
-Use an instance of the singleton [RateLimitHandler]() 
+Use the RateLimitHandler preferrably at the first point a new request hits your application server. Each request received is can be allocated a RateLimit object by registering the request. Use the RateLimit object to test whether the request should be limited or not.
 
-####Example
+An example of a request id could be the IP Address the request is comming from or alternatively a security token id, username etc. 
+```java
+RateLimitHandler rateLimitHandler = RateLimitHandler.getInstance();
+RateLimit rateLimit = rateLimitHandler.registerRequest("SOME UNIQUE REQUESTER_IDENTIFIER");
+``` 
+
+Verify if the current request is limited
+
+```java
+rateLimit.isRateLimited()
+```
+
+###Rate Limit Configuration
+
+The RateLimitHandler default configuration consists:
+
+```$xslt
+request limit = 100
+duration = 1 Hour
+rate limit strategy = Fixed Window
+rate limit data store = In Memory
+trim interval = 10 Minutes
+trim age = 3 Hours
+```
+
+To override the configuration create an instance of RateLimitConfig and the update the Handler with the new config. ie. to override the duration to 60 seconds for all new RateLimit objects:
+
+```java
+RateLimitConfig rateLimitConfig = RateLimitConfig.builder()
+                .durationMs(60000)
+                .build();
+try {
+    RateLimitHandler rateLimitHandler = RateLimitHandler.getInstance().updateConfig(rateLimitConfig);
+}catch (InvalidRateLimitConfigException e) {
+    // Handle invalid config
+}
+```
+
+All time parameters are interpreted as Milliseconds. 
+
+###Example
 
 The following is simple single threaded example of how to use the RateLimiter. Otherwise please refer to the tests for more inspiration.
 
