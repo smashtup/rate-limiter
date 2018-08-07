@@ -3,6 +3,10 @@ package au.com.unsol.rateLimiter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * InMemoryRateLimitStore - A simple HashMap implementation of the RateLimitStore.
+ * ConcurrentHashMap has been used to provide thread safety
+ */
 public class InMemoryRateLimitStore implements RateLimitStore {
 
     private Map<String, RateLimit> rateLimiterDataStore;

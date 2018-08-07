@@ -6,6 +6,13 @@ import lombok.Setter;
 
 import static java.lang.String.format;
 
+/**
+ * RateLimitConfig - Used to configure the handler with rate limiter parameters.
+ * <p>
+ * Preferably use the builder() to build objects of this class.
+ * <p>
+ * All time measurements are in milliseconds
+ */
 @Builder
 @Getter
 public class RateLimitConfig {
@@ -23,22 +30,54 @@ public class RateLimitConfig {
     public static final long DEFAULT_TRIM_TIME_INTERVAL_MS = 10 * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
     public static final long DEFAULT_AGE_TO_TRIM_MS = 3 * MINUTES_IN_HOUR * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
 
+    /**
+     * Override this with your own implementation of RateLimitStore
+     */
     @Builder.Default
     private RateLimitStore rateLimitStore = new InMemoryRateLimitStore();
+
+    /**
+     * Override this with your own implementation of RateLimitStrategy
+     */
     @Builder.Default
     private RateLimitStrategy limitStrategy = DEFAULT_RATE_LIMIT_STRATEGY;
+
+    /**
+     * What is the max requests for the rate strategy you are using
+     */
     @Builder.Default
     private long requestLimit = DEFAULT_REQUEST_LIMIT;
+
+    /**
+     * What is the interval in milliseconds for the rate strategy
+     */
     @Builder.Default
     private long durationMs = DEFAULT_DURATION_IN_MS;
+
+    /**
+     * How often should RateLimit entries be cleaned up
+     */
     @Builder.Default
     private long trimTimeIntervalMs = DEFAULT_TRIM_TIME_INTERVAL_MS;
+
+    /**
+     * What age should RateLimit entries be before being cleaned up
+     */
     @Builder.Default
     private long ageToTrimMs = DEFAULT_AGE_TO_TRIM_MS;
+
+    /**
+     * Used by the trimmer
+     */
     @Builder.Default
     @Setter
     private long lastTrimTimeMs = System.currentTimeMillis();
 
+    /**
+     * Ensure this Config has valid values
+     *
+     * @throws InvalidRateLimitConfigException
+     */
     public void validate() throws InvalidRateLimitConfigException {
         StringBuilder errorMessage = new StringBuilder();
         if (null == rateLimitStore) {

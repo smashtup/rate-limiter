@@ -3,6 +3,15 @@ package au.com.unsol.rateLimiter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * FixedWindowStrategy - An implementation of RateLimitStrategy using a basic interpretation
+ * of the rate limiting algorithm Fixed Window.
+ * <p>
+ * If number of requests exceed the max limit requests are limited until the expiry of a
+ * duration since the first request for this window.
+ * <p>
+ * After expiry a new start time for the window is recorded and number of requests reset to 0
+ */
 public class FixedWindowStrategy implements RateLimitStrategy {
 
     public static final String NUMBER_OF_REQUESTS_KEY = "numberOfRequests";
