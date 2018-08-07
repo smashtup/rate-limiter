@@ -59,7 +59,7 @@ gradle clean test
 
 ## Using the library
 
-###Quick Start
+### Quick Start
 
 Use the RateLimitHandler preferrably at the first point a new request hits your application server. Each request received is can be allocated a RateLimit object by registering the request. Use the RateLimit object to test whether the request should be limited or not.
 
@@ -75,7 +75,7 @@ Verify if the current request is limited
 rateLimit.isRateLimited()
 ```
 
-###Rate Limit Configuration
+### Rate Limit Configuration
 
 The RateLimitHandler default configuration consists:
 
@@ -103,7 +103,7 @@ try {
 
 All time parameters are interpreted as Milliseconds. 
 
-###Example
+### Example
 
 The following is simple single threaded example of how to use the RateLimiter. Otherwise please refer to the tests for more inspiration.
 
